@@ -24,6 +24,9 @@ export class ListEmployeesComponent implements OnInit {
 		filtering: {filterString: ''},
 		className: ['table-striped', 'table-bordered']
 	};
+
+	private rowsbackup:Array<any> = [];
+
   constructor(private employeeService : EmployeeService) { }
 
   getphonestring(phoneString) {
@@ -49,7 +52,21 @@ export class ListEmployeesComponent implements OnInit {
 				  postalcode: row.address.postal_code
 			  }
 		  })
+		  self.rowsbackup = self.rows.map(item => item);
 	  });
+  }
+
+  onChangeTable() {
+	  var filterString = this.config.filtering.filterString.toUpperCase();
+	  if (filterString.length > 0) {
+		  var filteredData = this.rowsbackup.filter(item => {
+			  return item.city.toUpperCase().match(filterString) ||
+			  item.name.toUpperCase().match(filterString)
+		  })
+		  this.rows = filteredData;
+	  } else {
+		  this.rows = this.rowsbackup;
+	  }
   }
 
 }
