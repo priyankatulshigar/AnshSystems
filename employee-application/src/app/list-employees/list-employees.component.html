@@ -1,7 +1,4 @@
 <div class="row">
-	<div class="col-lg-12">Employees</div>
-</div>
-<div class="row">
 	<div class="col-lg-3">
 		<input placeholder="Filter by name and city"
 	           [ngTableFiltering]="config.filtering"
@@ -10,5 +7,6 @@
 	</div>
 </div>
 <ng-table [config]="config"
-          [rows]="rows" [columns]="columns">
+          [rows]="rows" [columns]="columns"
+		  (cellClicked)="onCellClicked($event)">
 </ng-table>

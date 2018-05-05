@@ -28,4 +28,42 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+router.post('/add', function(req, res) {
+	getConnection().then(db => {
+		res.setHeader('Content-Type', 'text/plain')
+		req.body.employee.id = parseInt(req.body.employee.id);
+		db.collection('employees').insertOne(req.body.employee).then(result => {
+			res.send({ result: "success" });
+		}).catch(err => {
+			console.log(err);
+			res.send({ result: "failure" })
+		})
+	})
+});
+
+router.post('/update', function(req, res) {
+	getConnection().then(db => {
+		console.log(req.body.employee)
+		res.setHeader('Content-Type', 'text/plain');
+		req.body.employee.id = parseInt(req.body.employee.id);
+		db.collection('employees').update(
+			{ id: req.body.employee.id },
+			req.body.employee
+		).then(result => {
+			res.send({ result: "success" });
+		}).catch(err => {
+			console.log(err);
+			res.send({ result: "failure" })
+		})
+	})
+});
+
+router.post('/byId', function(req, res, next) {
+	getConnection().then(db => {
+		db.collection('employees').findOne({id: parseInt(req.body.id)}).then(result => {
+			res.json(result)
+		})
+	})
+});
+
 module.exports = router;

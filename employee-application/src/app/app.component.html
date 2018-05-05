@@ -1,5 +1,11 @@
-<h1>Angular Router</h1>
-  <nav>
-    <a routerLink="/employees" routerLinkActive="active">list employees</a>
-  </nav>
-<router-outlet></router-outlet>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<ul class="nav nav-pills">
+			  <li role="presentation"><a class="btn btn-primary" routerLink="/employees" >list employees</a></li>
+			  <li role="presentation"><a class="btn btn-primary" routerLink="/employees/add" >add employees</a></li>
+			</ul>
+			<router-outlet></router-outlet>
+		</div>
+	</div>
+</div>

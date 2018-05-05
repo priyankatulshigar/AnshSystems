@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { EmployeeService } from '../employee.service';
 
 @Component({
@@ -16,7 +17,8 @@ export class ListEmployeesComponent implements OnInit {
 	  {title: 'City', name: 'city'},
 	  {title: 'Address1', name: 'address1'},
 	  {title: 'Address2', name: 'address2'},
-	  {title: 'Postal Code', name: 'postalcode'}
+	  {title: 'Postal Code', name: 'postalcode'},
+	  {title: 'Edit', name: 'edit'}
 	];
 	public config:any = {
 		paging: true,
@@ -27,7 +29,7 @@ export class ListEmployeesComponent implements OnInit {
 
 	private rowsbackup:Array<any> = [];
 
-  constructor(private employeeService : EmployeeService) { }
+  constructor(private employeeService : EmployeeService, private router: Router) { }
 
   getphonestring(phoneString) {
   	if (/^[0-9]+$/.test(phoneString)) {
@@ -49,7 +51,8 @@ export class ListEmployeesComponent implements OnInit {
 				  city: row.address.city,
 				  address1: row.address.address_line1,
 				  address2: row.address.address_line2,
-				  postalcode: row.address.postal_code
+				  postalcode: row.address.postal_code,
+				  edit: 'edit'
 			  }
 		  })
 		  self.rowsbackup = self.rows.map(item => item);
@@ -66,6 +69,12 @@ export class ListEmployeesComponent implements OnInit {
 		  this.rows = filteredData;
 	  } else {
 		  this.rows = this.rowsbackup;
+	  }
+  }
+
+  onCellClicked(event) {
+	  if (event.column == 'edit') {
+		  this.router.navigate(['/employees/edit/', event.row.id])
 	  }
   }
 
